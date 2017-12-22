@@ -72,9 +72,10 @@ function buildElement(type,name,src,dist,newName){
  * 编译文件夹页面
  * @param  {[type]} folder [待编译文件夹名称]
  * @param  {[type]} deps   [js依赖]
+ * @param  {[type]} jsNewName   [js重命名]
  * @return {[type]}        [task任务]
  */
-function buildPage(folder,deps){
+function buildPage(folder,deps,jsNewName){
     var folderName = folder || 'index';
     var htmlSrc = folderName === 'index' ? 'src/index.shtml':'src/'+ folderName +'/*.shtml';
     var imgSrc = 'src/res/img/'+ folderName +'/*';
@@ -98,7 +99,7 @@ function buildPage(folder,deps){
     }else if(deps instanceof Array){
         jsArray = deps.concat(jsArray);
     }
-    buildElement('js',folderName,jsArray,jsDist);
+    buildElement('js',folderName,jsArray,jsDist,jsNewName);
     //auto
     gulp.task('auto-' + folderName,function(){
         gulp.watch(htmlSrc, ['html-' + folderName]);
@@ -125,7 +126,7 @@ buildElement('js','global',[
 buildPage('index',[
     'src/res/js/global/jquery.lazyload.js', 
     'src/res/js/global/unslider.min.js'
-]);
+],'indexall');
 //旗舰供应商
 buildPage('flagship');
 //特卖场
